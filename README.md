@@ -1,6 +1,8 @@
 ### MeiliAdmin
 
-MeiliAdmin is a UI interface for managing your MeiliSearch servers easily. MeiliAdmin doesn't have any auth service. You have to manage it in your private network (such as VPN). MeiliAdmin crafted by 90Pixel with ❤️.
+MeiliAdmin is a UI interface for managing your MeiliSearch servers easily. MeiliAdmin doesn't have any auth service. You have to manage it in your private network (such as VPN). MeiliAdmin crafted by KadirFirat with ❤️.
+
+Important Note: This project is supports of 0.28 and above versions of MeiliSearch
 
 <h2 align="center">
 What is MeiliSearch?
@@ -20,6 +22,18 @@ What is MeiliSearch?
 
 MeiliSearch is a powerful, fast, open-source, easy to use and deploy search engine. Both searching and indexing are highly customizable. Features such as typo-tolerance, filters, and synonyms are provided out-of-the-box. For more information about features go to [MeiliSearch documentation](https://docs.meilisearch.com/ "MeiliSearch documentation")
 
+
+### On Progress
+
+- Listing tasks, filtering tasks
+- Deleting Index
+- Add "swap" option for deleting and creating operations.
+- Key Management
+- Document listing, deleting and updating.
+- Dump Creation
+- Detailed Stats for Indexes
+- Index Update Operations
+- Master Key Support
 
 
 ### Features
