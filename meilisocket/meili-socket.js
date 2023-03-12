@@ -1,11 +1,12 @@
-const express = require("express");
+import express from "express";
+import * as http from "http";
+import { Server } from "socket.io";
+import API from "./helper/MeiliAPI.js";
+import DB from "./helper/Database.js";
+import Logger from "./helper/Logger.js";
+
 const app = express();
-const http = require('http');
 const server = http.createServer(app);
-const { Server } = require("socket.io");
-const API = require("./helper/MeiliAPI");
-const DB = require("./helper/Database");
-const Logger = require("./helper/Logger");
 
 
 const io = new Server(server, {
@@ -24,6 +25,12 @@ const io = new Server(server, {
     io.on('connection', (socket) => {
 
         Logger.Success("[MeiliAdmin] User Connected");
+
+        socket.on("getServerInfo", async (id) => {
+            const findServer = MeiliServers.find(M => M.id == id);
+            if (!findServer) return
+            socket.emit("resServerInfo", findServer);
+        })
 
         socket.on("health", async () => {
             for (let ServerData of MeiliServers) {

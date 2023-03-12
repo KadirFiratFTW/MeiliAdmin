@@ -1,8 +1,8 @@
 
-const { MeiliSearch } = require('meilisearch')
+import { MeiliSearch } from 'meilisearch'
 const instances = [];
 
-module.exports = {
+export default {
 
     getServerInstance(server, protocol, port) {
         if (!server || !protocol || !port) return;
@@ -26,14 +26,18 @@ module.exports = {
         if (!server || !protocol || !port) return;
         const ServerInstance = this.getServerInstance(server, protocol, port);
         try {
-            const stats = await ServerInstance.stats();
+            const stats = await ServerInstance.getStats();
             const indexCount = Object.keys(stats.indexes).length;
+            const indexInfo = Object.values(stats.indexes);
+            const getVersion = await ServerInstance.getVersion();
             let totalDocuments = 0;
-            for (let doc of Object.values(stats.indexes)) {
-                totalDocuments += doc.numberOfDocuments;
+            for (let doc = 0; doc < indexCount; doc++) {
+                const pickDocuments = indexInfo[doc]
+                totalDocuments += pickDocuments.numberOfDocuments;
             }
-            return { indexCount, totalDocuments, size: stats.databaseSize }
+            return { indexCount, totalDocuments, size: stats.databaseSize, version: getVersion.pkgVersion  }
         } catch (error) {
+            console.log(error);
             return false;
         }
     },
@@ -42,7 +46,7 @@ module.exports = {
         if (!server || !protocol || !port) return;
         const ServerInstance = this.getServerInstance(server, protocol, port);
         try {
-            const stats = await ServerInstance.stats();
+            const stats = await ServerInstance.getStats();
             return stats.indexes;
         } catch (error) {
             return [];

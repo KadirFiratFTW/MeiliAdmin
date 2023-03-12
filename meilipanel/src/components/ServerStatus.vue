@@ -29,14 +29,16 @@ export default {
   },
   methods: {
     startInterval() {
+      this.$socket.emit("health");
       setInterval(() => {
         this.$socket.emit("health");
-      }, 1000);
+      }, 5000);
     },
   },
   mounted() {
     this.startInterval();
     this.sockets.subscribe("health", (data) => {
+      console.log(data);
       const findServer = this.serverList.find(
         (S) =>
           S.ip == data.ip && S.port == data.port && S.protocol == data.protocol

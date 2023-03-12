@@ -1,6 +1,6 @@
-const chalk = require('chalk');
+import chalk from "chalk";
 
-module.exports = {
+export default {
     Error(text) {
         console.log(chalk.black.bgRed(text));
     },

@@ -37,5 +37,15 @@
     "fields": "Alanlar",
     "save": "Kaydet",
     "reset": "Sıfırla",
-    "synonym_name": "Hedef Kelime"
+    "synonym_name": "Eş Kelime",
+    "tasks": "Aktif Görevler",
+    "version": "Versiyon",
+    "index_creation": {
+        "success_title": "İndex Oluşturuldu",
+        "success_msg": "İndex oluşturuldu."
+    },
+    "index": {
+        "delete": "Delete Index",
+        "settings": "Settings"
+    }
 }

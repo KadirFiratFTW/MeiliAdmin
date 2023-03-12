@@ -7,14 +7,14 @@
     "start": "node meili-socket.js"
   },
   "dependencies": {
-    "chalk": "^4.1.2",
+    "chalk": "^5.2.0",
     "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "meilisearch": "^0.20.1",
-    "sqlite3": "^5.0.2",
-    "socket.io": "^4.2.0"
+    "express": "^4.18.2",
+    "meilisearch": "^0.31.1",
+    "socket.io": "^4.6.1",
+    "sqlite3": "^5.1.4"
   },
-  "devDependencies": {},
-  "author": "90Pixel",
-  "license": "MIT"
+  "author": "KadirFiratFTW",
+  "license": "MIT",
+  "type": "module"
 }

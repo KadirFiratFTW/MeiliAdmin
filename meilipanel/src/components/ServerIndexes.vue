@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-button type="is-info my-4" @click="isComponentModalActive = true">{{
+    <b-button :disabled="serverInfo == null" type="is-info my-4" @click="isComponentModalActive = true">{{
       $t("create_new_index")
     }}</b-button>
     <div class="columns" v-if="Object.keys(serverIndexList).length">
@@ -27,7 +27,6 @@
       trap-focus
       :destroy-on-hide="false"
       aria-role="dialog"
-      aria-label="Example Modal"
       aria-modal
     >
       <div class="modal-card" style="width: 450px">
@@ -79,6 +78,11 @@ export default {
     },
   },
   methods: {
+    fetchServer(){
+      this.serverInfoInterval = setInterval(() => {
+        this.$socket.emit("getServerInfo", this.$route.params.server);
+      }, 1000)
+    },
     uploadIndex() {
       if (!this.createIndex.file.name.endsWith(".json")) {
         this.errorMsg = this.$t("only_json");
@@ -86,12 +90,16 @@ export default {
       }
       const uploadedFile = this.createIndex.file;
       const indexName = this.createIndex.name;
-      var reader = new FileReader();
+      const serverIp = this.serverInfo.server_ip;
+      const serverPort = this.serverInfo.port;
+      const serverProtocol = this.serverInfo.protocol;
+      const reader = new FileReader();
+
       reader.readAsText(uploadedFile, "UTF-8");
-      reader.onload = function (evt) {
+      reader.onload = (evt) => {
         const rawJSON = evt.target.result;
 
-        var requestOptions = {
+        const requestOptions = {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -100,29 +108,48 @@ export default {
         };
 
         fetch(
-          "http://172.31.207.154:7700/indexes/" + indexName + "/documents",
+          `${serverProtocol}://${serverIp}:${serverPort}/indexes/${indexName}/documents`,
           requestOptions
         )
           .then((response) => response.text())
-          .then((result) => console.log(result))
+          .then((result) => {
+            const resp = JSON.parse(result);
+            if(resp.status){
+              this.$notify({
+                title: this.$t('index_creation.success_title'),
+                text: this.$t('index_creation.success_msg'),
+                type: 'success'
+              });
+            }
+          })
           .catch((error) => console.log("error", error));
       };
       this.isComponentModalActive = false;
     },
     startInterval() {
+      this.$socket.emit("server_indexes", this.$route.params.server);
       setInterval(() => {
         this.$socket.emit("server_indexes", this.$route.params.server);
-      }, 1000);
+      }, 5000);
     },
   },
   mounted() {
+    this.fetchServer();
     this.startInterval();
     this.sockets.subscribe("server_indexes", (data) => {
       this.serverIndexList = data;
     });
+    this.sockets.subscribe("resServerInfo", (data) => {
+        this.serverInfo = data;
+        this.sockets.unsubscribe("resServerInfo")
+        clearInterval(this.serverInfoInterval);
+        this.serverInfoInterval = null;
+    });
   },
   data: () => {
     return {
+      serverInfo: null,
+      serverInfoInterval: null,
       errorMsg: "",
       createIndex: {
         name: "",

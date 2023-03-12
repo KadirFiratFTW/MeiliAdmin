@@ -60,6 +60,18 @@
           </div>
         </div>
       </div>
+      <div class="column">
+        <div class="card has-background-danger">
+          <div class="card-content has-text-white">
+            <h1 class="is-size-3 is-bold">{{ $t("version") }}</h1>
+            <div class="content is-size-4">
+              {{
+                serverData.data.version
+              }}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>

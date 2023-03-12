@@ -1,4 +1,4 @@
-const sqlite3 = require('sqlite3').verbose();
+import sqlite3 from "sqlite3";
 const db = new sqlite3.Database('meiliadmin.db');
 
 db.serialize(function () {
@@ -6,7 +6,7 @@ db.serialize(function () {
 });
 
 
-module.exports = {
+export default {
 
     async getServerList() {
 

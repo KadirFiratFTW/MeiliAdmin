@@ -5,6 +5,7 @@ import VueSocketIO from 'vue-socket.io'
 import SocketIO from 'socket.io-client'
 import i18n from '../plugins/i18n'
 import VueRouter from 'vue-router'
+import Notifications from 'vue-notification'
 import 'buefy/dist/buefy.css'
 import '@mdi/font/css/materialdesignicons.css'
 import 'vue-select/dist/vue-select.css';
@@ -12,6 +13,7 @@ import 'vue-select/dist/vue-select.css';
 Vue.config.productionTip = false
 Vue.use(Buefy)
 Vue.use(VueRouter)
+Vue.use(Notifications)
 Vue.use(new VueSocketIO({
   connection: SocketIO('http://' + window.location.hostname + ':9191'),
   extraHeaders: {

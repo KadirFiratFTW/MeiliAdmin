@@ -16,7 +16,6 @@
       trap-focus
       :destroy-on-hide="false"
       aria-role="dialog"
-      aria-label="Example Modal"
       aria-modal
     >
       <div class="modal-card" style="width: 450px">
